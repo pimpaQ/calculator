@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,31 @@ namespace calculator
         {
             InitializeComponent();
 
+            foreach(UIElement element in MainRoot.Children)
+            {
+                if(element is Button)
+                {
+                    ((Button)element).Click += Button_Click;
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string str = (string)((Button)e.OriginalSource).Content;
+            if(str == "AC")
+            {
+                textLabel.Text = "";
+            }
+            else if(str == "=")
+            {
+                string value = new DataTable().Compute(textLabel.Text, null).ToString();
+                textLabel.Text = value;
+            }
+            else
+            {
+                textLabel.Text += str;
+            }
         }
     }
 }
